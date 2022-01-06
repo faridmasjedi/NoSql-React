@@ -1,12 +1,10 @@
 import "./App.css";
-import Index from "./Index";
+import User from "./User";
 
 function App() {
   return (
-    <div className="App">
-      <div>
-        <Index />
-      </div>
+    <div>
+      <User />
     </div>
   );
 }

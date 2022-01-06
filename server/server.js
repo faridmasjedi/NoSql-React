@@ -13,14 +13,14 @@ server.use(express.json());
 
 server.get("/artists", (req, res) => {
   let info = database.all();
-  console.log("all - index:", info);
+  console.log("\n---\nall - index:", info, "\n---\n");
   res.send(info);
 });
 
 server.post("/artist/add", (req, res) => {
   let { name, age } = req.body;
   let info = [name, age];
-  console.log("add - server:", info);
+  console.log("\n---\nadd - server:", info, "\n---\n");
   database.create(info);
   res.send(database.all());
 });
@@ -31,13 +31,31 @@ server.post("/artist/edit", (req, res) => {
   name = name || data.name;
   age = age || data.age;
   let info = { Id, name, age };
-  console.log("edit - server:", info);
+  console.log("\n---\nedit - server:", info, "\n---\n");
   database.update(info);
 });
 
 server.post("/artist/remove", (req, res) => {
   let info = req.body;
-  console.log("remove - server:", info);
+  console.log("\n---\nremove - server:", info, "\n---\n");
   database.remove(info);
 });
-server.listen(PORT, () => console.log(`http://localhost:${PORT}`));
+
+server.post("/artist/search", (req, res) => {
+  let { valArr, varArr } = req.body;
+
+  let searchResult;
+  if (valArr.length) {
+    searchResult = database.findBySomeColumns(varArr, valArr);
+  } else {
+    searchResult = database.all();
+  }
+  console.log("\n---\nserver - search : ", searchResult, "\n---\n");
+  res.send(searchResult);
+});
+
+server.listen(PORT, () =>
+  console.log(
+    `\n---\nThe link to the port is : http://localhost:${PORT}\n---\n`
+  )
+);
